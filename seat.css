@@ -1,0 +1,46 @@
+.text{
+    padding: 0.5em 1em;
+    margin: 2em 0;
+    background: #f0f7ff;
+    border: dashed 2px #5b8bd0;/*点線の色*/
+    font-size:large;
+}
+.text p{
+    margin: 0;
+    padding: 0;
+}
+.name{
+    padding: 0 0;
+    margin: 0 0;
+    color: #2c2c2f;
+    background: #cde4ff;/*背景色*/
+}
+.name p{
+    margin: 0;
+    padding: 0;
+}
+.bun{
+    padding: 8px 19px;
+    margin: 2em 0;
+    color: #2c2c2f;
+    background: #cde4ff;
+    border-top: solid 5px #5989cf;
+    border-bottom: solid 5px #5989cf;
+}
+.bun{
+    margin: 0;
+    padding: 0;
+}
+.title{
+    padding: 0.5em 1em;
+    margin: 2em 0;
+    background: #f0f7ff;
+    border: dashed 2px #5b8bd0;/*点線の色*/
+}
+.A{
+    margin: 0;
+    padding: 0;
+}
+#top img{
+    width: 200px;
+}
