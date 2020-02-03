@@ -14,6 +14,16 @@
         $replaced ='/((?:https?|ftp):\/\/[-_.!~*\'()a-zA-Z0-9;\/?:@&=+$,%#]+)/';
         $url ='<a href="$1">$1</a>';
         $htmldata=preg_replace($replaced,$url,$htmldata);
+        $replaced ='/&gt;&gt;([0-9])+/';
+        $url ='<a href="search.php?';
+        $url .= http_build_query([
+            'id' => $_GET['id'],
+            'name' => $_GET["name"],
+            //'sort' => $_GET["sort"],
+        ]);
+        $url .= '&no=$1">>>$1</a>';
+//var_dump($url); exit;
+        $htmldata=preg_replace($replaced,$url,$htmldata);
         return $htmldata;
     }
     function template1($html,$id,$tile,$desc){

@@ -41,6 +41,12 @@
     margin: 0;
     padding: 0;
 }
+.S{
+    padding: 0.5em 1em;
+    margin: 2em 0;
+    background: #f0f7ff;
+    border: dashed 2px #5b8bd0;/*点線の色*/
+}
 #top img{
     width: 200px;
 }

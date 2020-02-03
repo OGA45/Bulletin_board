@@ -1,20 +1,24 @@
 <?php
+ob_start();
+session_start();
 //
 $datum = [];
 foreach(['name', 'seed', 'text'] as $s) {
   $datum[$s] = (string)@$_POST[$s];
 }
-
 // validate
 if ( ('' === $datum['name'])||('' === $datum['text']) ){
+var_dump($datum);
   $h="index.php?id={$_GET['id']}&name={$_GET['name']}&sort={$_GET['sort']}";
   header('Location: '.$h);
   exit;
 }
 // else
-
   $dbh=new PDO("mysql:host=localhost;dbname=OGA;charset=utf8mb4","OGA","OGA",[PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION,PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_ASSOC,PDO::ATTR_EMULATE_PREPARES=>true,]);
-	$stmt=$dbh->prepare('insert into keizi values (:name,:seed,:text,:times,:id)');
+  $stmt=$dbh->prepare('insert into keizi values (:name,:seed,:text,:times,:id,:no,:login)'); 
+  $count= $dbh->prepare('SELECT * FROM keizi where id=:id order by time desc ');
+  $count->bindValue(':id', $_GET['id'],PDO::PARAM_STR);
+  $count->execute();
   $stmt->bindValue(':name', $datum['name'],PDO::PARAM_STR);
 	$stmt->bindValue(':seed', $datum['seed'],PDO::PARAM_STR);
   $stmt->bindValue(':text', $datum['text'],PDO::PARAM_STR);
@@ -22,10 +26,15 @@ if ( ('' === $datum['name'])||('' === $datum['text']) ){
   $date = $date->format('Y-m-d H:i:s');
   $stmt->bindValue(':times', $date,PDO::PARAM_STR);
   $stmt->bindValue(':id', $_GET["id"],PDO::PARAM_STR);
+  $stmt->bindValue(':no', $count->rowCount()+1,PDO::PARAM_STR); 
+  if(isset($_SESSION['auth'])){
+      $stmt->bindValue(':login',1,PDO::PARAM_STR); 
+  }else{
+    $stmt->bindValue(':login',0,PDO::PARAM_STR); 
+  }
   $stmt->execute();
   $h="index.php?id=" . rawurlencode($_GET['id']) . "&name=" . rawurlencode($_GET['name']) . "&sort=" . rawurlencode($_GET['sort']);
 //var_dump($h); exit;
-
   header('Location: '.$h);
   exit;
 // index.php
