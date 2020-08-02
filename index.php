@@ -4,6 +4,11 @@
     ini_set('display_errors', 1);
     error_reporting(-1);
     require_once('./common.php');
+    if ( (false === isset($_GET["id"]))||('' === $_GET["name"]) ) {
+        $h="top.php";
+        header('Location: '.$h);
+        exit;
+    }
     if ( (false === isset($_COOKIE["seed"]))||('' === $_COOKIE["seed"]) ) {
         /*$seedx="1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPUQRSTUVWXYZ!?_-^|*+-/"
             $seed=substr(str_shuffle($seedx), 0, 10);
@@ -40,9 +45,9 @@
         require 'template.php';
         foreach ($stmt as $row) {
             if($row['login']==1){
-                echo template('index.html',$row["no"],$row["name"],substr(base64_encode($row["seed"]), 0, 11)."☆",h($row["text"]),$row["time"] );
+                echo template('index.html',$row["no"],h($row["name"]),substr(base64_encode($row["seed"]), 0, 11)."☆",h($row["text"]),$row["time"] );
             }else{
-                echo template('index.html',$row["no"],$row["name"],substr(base64_encode($row["seed"]), 0, 11),h($row["text"]),$row["time"] );
+                echo template('index.html',$row["no"],h($row["name"]),substr(base64_encode($row["seed"]), 0, 11),h($row["text"]),$row["time"] );
             }
             $no=$row["no"];    
         }

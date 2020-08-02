@@ -9,10 +9,11 @@
     header('Location: '.$h);
     exit;
   }
+  require_once('./common.php');//XSS防ぐ奴
   $dbh=new PDO("mysql:host=localhost;dbname=OGA;charset=utf8mb4","OGA","OGA",[PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION,PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_ASSOC,PDO::ATTR_EMULATE_PREPARES=>true,]);
   $stmt=$dbh->prepare('select count(id) as cnt from login where mail=:mail OR seed=:seed ');
   $stmt->bindValue(':mail', $datum['mail'],PDO::PARAM_STR);
-  $stmt->bindValue(':seed', $datum['seed'],PDO::PARAM_STR);
+  $stmt->bindValue(':seed', h($datum['seed']),PDO::PARAM_STR);
   $stmt->execute();
   $row = $stmt->fetch();
   if($row['cnt']==0){
@@ -24,7 +25,7 @@
       $row = $stmt->fetch();
       if($row['cnt']==0){
         $stmt=$dbh->prepare('insert into login values (:name,:mail,:pass,:seed,:ena,:id,:time)'); 
-        $stmt->bindValue(':name', $datum['name'],PDO::PARAM_STR);
+        $stmt->bindValue(':name', h($datum['name']),PDO::PARAM_STR);
         $stmt->bindValue(':mail', $datum['mail'],PDO::PARAM_STR);
         $stmt->bindValue(':pass', password_hash($datum['pass'],PASSWORD_DEFAULT),PDO::PARAM_STR);
         $stmt->bindValue(':seed', $datum['seed'],PDO::PARAM_STR);

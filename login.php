@@ -9,6 +9,8 @@
                 <?
                 if($_GET['e']==1){
                 echo "メールアドレス、又はパスが違います";
+                }elseif($_GET['e']==2){
+                    echo "アカウントが有効化されていません";
                 }
                 ?>
                 <form action="aclogin.php" method="post">

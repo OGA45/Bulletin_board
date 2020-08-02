@@ -17,6 +17,12 @@
         exit;
     }
     // IDはあった
+    //有効化されているか確認されてなければ返す
+    if($row['enable']==0){
+        $h="login.php?e=2";
+        header('Location: '.$h);
+        exit;
+    }
     // passwordを比較：password_verify
     if(password_verify($_POST['pass'],$row['pass'])==false){
         $h="login.php?e=1";
